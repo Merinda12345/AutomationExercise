@@ -24,8 +24,16 @@ public class LoginPage {
     @FindBy(id="login-submit")
     WebElement clickLoginButton_id;
 
+    @FindBy(id="signup-toggle")
+    WebElement clickSignUpButton_id;
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public void clickSignUpButton(){
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(clickSignUpButton_id));
+        clickSignUpButton_id.click();
     }
 
     public void verifyLoginPageIsDisplayed() {
