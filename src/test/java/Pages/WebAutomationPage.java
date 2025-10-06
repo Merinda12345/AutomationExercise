@@ -50,14 +50,14 @@ public class WebAutomationPage {
     public void validateSelectDeviceType( String deviceType){
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(selectBrandDropdown_id));
        Select select = new Select(selectDeviceTypeDropdown_id);
-         select.selectByValue("phone");
+         select.selectByValue(deviceType);
 
 
     }
 
     public void validateSelectBrand(String brand){
         Select select1 = new Select(selectBrandDropdown_id);
-        select1.selectByValue("apple");
+        select1.selectByValue(brand);
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(selectBrandDropdown_id));
 
     }
@@ -69,13 +69,13 @@ public class WebAutomationPage {
     public void validateEnterQuantity(String quantity){
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(enterQuantity_id));
         enterQuantity_id.clear();
-        enterQuantity_id.sendKeys("3");
+        enterQuantity_id.sendKeys(quantity);
 
     }
 
     public void validateEnterAddress(String address){
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(enterAddress_id));
-        enterAddress_id.sendKeys(" 27 oliver street");
+        enterAddress_id.sendKeys(address);
 
     }
 
