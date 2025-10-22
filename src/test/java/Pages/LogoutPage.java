@@ -13,16 +13,22 @@ public class LogoutPage {
 
     WebDriver driver;
 
-    @FindBy(id="logout-btn")
+    @FindBy(id="logout-button")
     WebElement clickLogoutButton_id;
 
     public LogoutPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void clickLogoutButton(){
-        clickLogoutButton_id.click();
+    public void verifyWelcomePageIsDisplayed() {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(clickLogoutButton_id));
+        clickLogoutButton_id.isDisplayed();
+    }
+
+    public void clickLogoutButton(){
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(clickLogoutButton_id));
+        clickLogoutButton_id.click();
+
     }
 
 

@@ -20,7 +20,7 @@ screenshots/
 .settings
 .springBeans
 .sts4-cache
-
+Reports/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

@@ -35,26 +35,35 @@ public class LoginPage {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(clickSignUpButton_id));
         clickSignUpButton_id.click();
     }
-
+    public boolean areTabsVisible() {
+        return loginPageTitle_id.isDisplayed() && enterUserName_id.isDisplayed() && enterPassword_id.isDisplayed() && clickLoginButton_id.isDisplayed() && clickSignUpButton_id.isDisplayed();
+    }
     public void verifyLoginPageIsDisplayed() {
+
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(loginPageTitle_id));
         loginPageTitle_id.isDisplayed();
     }
 
     public void enterUserName(String userName){
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(enterUserName_id));
+        enterUserName_id.clear();
         enterUserName_id.sendKeys(userName);
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(enterUserName_id));
+
     }
 
     public void enterPassword(String password){
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(enterPassword_id));
+        enterPassword_id.clear();
         enterPassword_id.sendKeys(password);
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(enterPassword_id));
+
     }
 
     public void clickLoginButton(){
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(clickLoginButton_id));
         clickLoginButton_id.click();
     }
+
+
 
 
 

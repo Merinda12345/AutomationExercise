@@ -1,7 +1,19 @@
 package Tests;
 
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 
 public class MerryTests extends Base {
@@ -44,14 +56,49 @@ public class MerryTests extends Base {
 //        System.out.println("Passwords do not match");
 //        takesScreenshots.takesSnapShot(driver," Entered Registration Details");
 //        registerPage.clickRegisterButton();
-//
-//
 //    }
 
+//@Test(dependsOnMethods = "verifyLoginPageIsDisplayedTests")
+//public void testInvalidCredentials() {
+//    loginPage.enterUserName("testuser");
+//    loginPage.enterPassword("wrongpass");
+//    loginPage.clickLoginButton();
+//    Assert.assertTrue(loginPage.areTabsVisible(), "Tabs should be visible after login");
+//    // Simulate tab switch by refreshing or navigating away and back
+//    driver.navigate().to("https://www.ndosiautomation.co.za/#another");
+//    driver.navigate().back();
+//    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+//    Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+//    Assert.assertTrue(driver.getCurrentUrl().contains("login"), "Should be redirected to login after tab switch");
+//    takesScreenshots.takesSnapShot(driver, "Invalid LogIn");
+//}
+
+    @Test(dependsOnMethods = "verifyLoginPageIsDisplayedTests")
+    public void loginWithSpaces() {
+
+        loginPage.enterUserName("  Merinda@gmail.com");
+        loginPage.enterPassword("   12345678   ");
+        loginPage.clickLoginButton();
+        System.out.println("Credentials with spaces logged in");
+        takesScreenshots.takesSnapShot(driver, "Entered Spaces in Login Details");
+    }
+    @Test(dependsOnMethods = "loginWithSpaces")
+    public void clickLogoutButtonTests() {
+        logoutPage.clickLogoutButton();
+        takesScreenshots.takesSnapShot(driver, "Logged Out");
+    }
+   @Test(dependsOnMethods = "clickLogoutButtonTests")
+    public void verifyLoginPageIsDisplayedAfterLogoutTests() {
+
+        loginPage.verifyLoginPageIsDisplayed();
+        takesScreenshots.takesSnapShot(driver," Login Page After Logout");
+    }
 
 
-@Test(dependsOnMethods = "verifyLoginPageIsDisplayedTests")
+
+@Test(dependsOnMethods = "clickLogoutButtonTests")
     public void LoginDetails() {
+
         loginPage.enterUserName("Merinda@gmail.com");
         loginPage.enterPassword("12345678");
         takesScreenshots.takesSnapShot(driver," Entered Login Details");
@@ -77,12 +124,32 @@ public class MerryTests extends Base {
 
     }
     @Test(dependsOnMethods = "clickWebAutomationButtonTests")
+    public void wrongQuantity() {
+        webAutomationPage.validateSelectDeviceType("phone");
+        webAutomationPage.validateSelectBrand("apple");
+        webAutomationPage.validateSelectStorageOption();
+        webAutomationPage.validateEnterQuantity("0");
+        System.out.println("Quantity must be >0");
+       WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        webAutomationPage.validateEnterAddress("1234 Fake Street, Springfield");
+        webAutomationPage.validateClickNextButton();
+        takesScreenshots.takesSnapShot(driver, "Quantity 0 value");
+        webAutomationPage.validateEnterQuantity("11");
+        System.out.println("Quantity must be <10");
+        webAutomationPage.validateEnterAddress("1234 Fake Street, Springfield");
+        webAutomationPage.validateClickNextButton();
+        takesScreenshots.takesSnapShot(driver, " Quantity 11 value");
+
+    }
+
+
+
+    @Test(dependsOnMethods = "wrongQuantity")
     public void fillFormTests() {
         webAutomationPage.validateSelectDeviceType("phone");
         webAutomationPage.validateSelectBrand("apple");
         webAutomationPage.validateSelectStorageOption();
         webAutomationPage.validateEnterQuantity("2");
-        //System.out.print("Quantity must be ≤ 10 ");
         webAutomationPage.validateEnterAddress("1234 Fake Street, Springfield");
         webAutomationPage.validateClickNextButton();
         takesScreenshots.takesSnapShot(driver, " Pricing Panel Page");
@@ -100,7 +167,19 @@ public class MerryTests extends Base {
         pricingPanelPage.ApplyDiscountButton();
         takesScreenshots.takesSnapShot(driver, " Updated Pricing Panel with Extras");
     }
+
     @Test(dependsOnMethods = "ExtrasPricingPanelTests")
+    public void wrongDiscountValue() {
+        pricingPanelPage.ShippingMethod();
+        pricingPanelPage.WarrantyOption();
+        pricingPanelPage.DiscountCode("wedd");
+
+        pricingPanelPage.ApplyDiscountButton();
+        System.out.println("Invalid discount code");
+        takesScreenshots.takesSnapShot(driver, " Invalid Discount Code");
+    }
+
+    @Test(dependsOnMethods = "wrongDiscountValue")
     public void clickAddToCartButtonTests() {
         pricingPanelPage.clickAddToCartButton();
     }
@@ -172,8 +251,8 @@ public class MerryTests extends Base {
     }
 
 
-//    @AfterTest
-//    public void closeBrowser() {
-//        driver.quit();
-//    }
+    @AfterTest
+    public void closeBrowser() {
+        driver.quit();
+    }
 }

@@ -17,6 +17,7 @@ public class WelcomePage {
     @FindBy(id="tab-btn-web")
     WebElement clickWebAutomationTab_id;
 
+
     public WelcomePage(WebDriver driver) {
         this.driver = driver;
     }
@@ -30,6 +31,7 @@ public class WelcomePage {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(visibilityOf(welcomepageTitle_id));
         clickWebAutomationTab_id.click();
     }
+
 
 
 
